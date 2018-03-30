@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>countDown</title>
+    <style type="text/css">
+      .runon-down {
+        text-align: center;
+      }
+      .runon-down span:not(.runon-down-txt) {
+        padding: 1px 5px;
+        background: #666;
+        color: #fff;
+        border-radius: 3px;
+      }
+      .time {
+        text-align: center;
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <p class="runon-down">
+      <span class="runon-down-txt">距离结束</span>
+      <span class="runon-down-d">01</span> :
+      <span class="runon-down-h">11</span> :
+      <span class="runon-down-min">22</span> :
+      <span class="runon-down-s">33</span>
+    </p>
+
+    <p class="time"> </p>
+    <script src="countDown.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript">
+      var down_d = document.querySelectorAll(".runon-down-d")[0] ,
+          down_h = document.querySelectorAll(".runon-down-h")[0] ,
+          down_min = document.querySelectorAll(".runon-down-min")[0] ,
+          down_s = document.querySelectorAll(".runon-down-s")[0] ,
+          down_txt = document.querySelectorAll(".runon-down-txt")[0] ;
+      function setCountDown (down) {
+        down_d.textContent = down.d ;
+        down_h.textContent = down.h ;
+        down_min.textContent = down.min ;
+        down_s.textContent = down.s ;
+      }
+
+      $d({
+        nostart: function () {
+          down_txt.textContent = '距离开始' ;
+          setCountDown (this.time);
+        }
+        ,underway: function () {
+          down_txt.textContent = '距离开始' ;
+          setCountDown (this.time);
+        }
+        ,isend: function () {
+          document.querySelectorAll(".runon-down")[0].textContent = '已结束' ;
+        }
+      }).init(54, 50);
+
+      // var countDown = $d({
+      //   nostart: function () {
+      //     down_txt.textContent = '距离开始' ;
+      //     setCountDown (countDown.time);
+      //   }
+      //   ,underway: function () {
+      //     down_txt.textContent = '距离开始' ;
+      //     setCountDown (countDown.time);
+      //   }
+      //   ,isend: function () {
+      //     document.querySelectorAll(".runon-down")[0].textContent = '已结束' ;
+      //   }
+      // });
+      // countDown.init(-54, 50);
+
+      var nowdate = new Date() ;
+      var timestamp = parseInt(nowdate.getTime() / 1000);
+      var settime = document.querySelectorAll("p.time")[0] ;
+      function setTimes (time) {
+        var t = new Date (time * 1000),
+            year = t.getFullYear(),
+            month = parseInt(t.getMonth()) + 1 ,
+            date = t.getDate() ,
+            h = t.getHours() ,
+            min = t.getMinutes() ,
+            s = t.getSeconds() ;
+        month = month < 10 ? '0' + month : month;
+        date = date < 10 ? '0' + date : date;
+        h = h < 10 ? '0' + h : h;
+        min = min < 10 ? '0' + min : min;
+        s = s < 10 ? '0' + s : s;
+        settime.textContent = year + "/" + month + "/" + date + "  " + h + ":" + min + ":" + s ;
+      }
+      $d({
+        underway: function () {
+         setTimes (this.timestamp)
+        }
+      }).init(0, timestamp, false) ;
+
+      // time.init(0, timestamp, false) ;
+      // var time = $d({
+      //   underway: function () {
+      //    setTimes (time.timestamp)
+      //   }
+      // })
+      // time.init(0, timestamp, false) ;
+    </script>
+  </body>
+
+</html>
